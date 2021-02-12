@@ -14,7 +14,7 @@ class Content extends Component {
 
   renderContent = () => {
     if (this.props.editNotes) {
-      return <NoteEditor note={this.props.selectedNote} handleChange={this.props.handleChange} handleSubmit={this.props.handleSubmit}/>;
+      return <NoteEditor handleCancel={this.props.handleCancel} note={this.props.selectedNote} handleChange={this.props.handleChange} handleSubmit={this.props.handleSubmit}/>;
     } else if (this.props.selectedNote.body) {
       return <NoteViewer key={this.props.selectedNote} note={this.props.selectedNote} handleEdit={this.props.handleEdit}/>;
     } else {

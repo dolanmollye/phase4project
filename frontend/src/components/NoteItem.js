@@ -5,7 +5,7 @@ const truncate = (str) => {
 }
 
 const NoteItem = (props) => (
-  <li onClick={() => props.handleClick(props.note)}>
+  <li onClick={() => props.handleClick(props.note) }>
     <h2>{props.note.title}</h2>
     <p>{truncate(props.note.body)}</p>
   </li>

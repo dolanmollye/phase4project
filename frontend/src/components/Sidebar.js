@@ -5,8 +5,8 @@ class Sidebar extends Component {
   render() {
     return (
       <div className='master-detail-element sidebar'>
-        <NoteList notes={this.props.notes} selectedNote={this.props.selectedNote} handleClick={this.props.handleClick}/>
-        <button>New</button>
+        <NoteList notes={this.props.notes} selectedNote={this.props.selectedNote} handleClick={this.props.handleClick} handleCancel={this.props.handleCancel}/>
+        <button onClick={(e)=> this.props.handleNew(e)}>New</button>
       </div>
     );
   }

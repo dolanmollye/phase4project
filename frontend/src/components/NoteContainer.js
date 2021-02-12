@@ -23,9 +23,15 @@ class NoteContainer extends Component {
     selectedNote: note
   })
 
-  handleEdit = (note) => {
+  handleEdit = () => {
     this.setState({
       editNotes: true
+    })
+  }
+
+  handleCancel = () => {
+    this.setState({
+      editNotes: false
     })
   }
 
@@ -56,6 +62,27 @@ class NoteContainer extends Component {
     })
   }
 
+  handleNew = (e) => {
+    e.preventDefault()
+    fetch('http://localhost:3000/api/v1/notes', {
+      method: 'POST',
+      headers: {'Content-Type' : 'application/json'},
+      body: JSON.stringify({ 
+        title: "Title",
+        body: "Body",
+        user_id: 1
+      })
+    })
+    .then(res => res.json())
+    .then(note => {
+      this.setState(prevState => {
+        return{
+          notes: [...prevState.notes, note]
+        }
+      })
+    })
+  }
+
 
 
   render() {
@@ -63,8 +90,8 @@ class NoteContainer extends Component {
       <Fragment>
         <Search />
         <div className='container'>
-          <Sidebar notes={this.state.notes} handleClick={this.handleClick}/>
-          <Content handleEdit={this.handleEdit} selectedNote={this.state.selectedNote} editNotes={this.state.editNotes} handleChange={this.makeEdits} handleSubmit={this.handleSubmit}/>
+          <Sidebar handleNew={this.handleNew} handleCancel={this.handleCancel} notes={this.state.notes} handleClick={this.handleClick}/>
+          <Content handleCancel={this.handleCancel} handleEdit={this.handleEdit} selectedNote={this.state.selectedNote} editNotes={this.state.editNotes} handleChange={this.makeEdits} handleSubmit={this.handleSubmit}/>
         </div>
       </Fragment>
     );
