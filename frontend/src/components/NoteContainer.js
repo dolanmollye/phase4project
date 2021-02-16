@@ -7,6 +7,7 @@ class NoteContainer extends Component {
 
   state = {
     notes: [],
+    filterNotes: [],
     selectedNote: {},
     editNotes: false
   }
@@ -15,7 +16,8 @@ class NoteContainer extends Component {
     fetch('http://localhost:3000/api/v1/notes')
     .then(res => res.json())
     .then(note => this.setState({
-      notes: note
+      notes: note,
+      filterNotes: note
     }))
   }
   
@@ -83,15 +85,55 @@ class NoteContainer extends Component {
     })
   }
 
+  handleDelete = (selectedNote) => {
+    let newArr = this.state.notes.filter(note => note.id !== selectedNote.id)
+    fetch(`http://localhost:3000/api/v1/notes/${selectedNote.id}`, {
+      method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(this.setState({
+      notes: newArr,
+      selectedNote: {}
+    }))
+  }
 
+  handleNotesFilter = (e) => {
+    let allNotes = this.state.notes
+    let searchNotes = e.target.value
+    let filterNotes = []
+    allNotes.filter(note => note.title.toLowerCase().includes(searchNotes.toLowerCase()) ? filterNotes.push(note) : null)
+    this.setState({
+        filterNotes: filterNotes
+    });
+}
 
   render() {
     return (
       <Fragment>
-        <Search />
+        <Search 
+          search={this.state.search}
+          notes={this.state.notes}
+          handleFilter={this.handleNotesFilter}
+        />
+
         <div className='container'>
-          <Sidebar handleNew={this.handleNew} handleCancel={this.handleCancel} notes={this.state.notes} handleClick={this.handleClick}/>
-          <Content handleCancel={this.handleCancel} handleEdit={this.handleEdit} selectedNote={this.state.selectedNote} editNotes={this.state.editNotes} handleChange={this.makeEdits} handleSubmit={this.handleSubmit}/>
+          <Sidebar
+          filterNotes={this.state.filterNotes}
+          handleNew={this.handleNew} 
+          handleCancel={this.handleCancel} 
+          notes={this.state.filterNotes} 
+          handleClick={this.handleClick}
+          />
+
+          <Content 
+          handleDelete={this.handleDelete}
+          handleCancel={this.handleCancel} 
+          handleEdit={this.handleEdit} 
+          selectedNote={this.state.selectedNote}
+          editNotes={this.state.editNotes} 
+          handleChange={this.makeEdits} 
+          handleSubmit={this.handleSubmit}
+          />
         </div>
       </Fragment>
     );
