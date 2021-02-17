@@ -9,7 +9,8 @@ class NoteContainer extends Component {
     notes: [],
     filterNotes: [],
     selectedNote: {},
-    editNotes: false
+    editNotes: false,
+    selectedButton: 'title',
   }
 
   componentDidMount() {
@@ -58,7 +59,8 @@ class NoteContainer extends Component {
     .then(note => {
      this.setState(prevState => {
        return {
-         notes: prevState.notes.map(n => n.id === note.id ? note : n)
+         filterNotes: prevState.filterNotes.map(n => n.id === note.id ? note : n),
+         editNotes: false
        }
      })
     })
@@ -97,15 +99,40 @@ class NoteContainer extends Component {
     }))
   }
 
-  handleNotesFilter = (e) => {
-    let allNotes = this.state.notes
-    let searchNotes = e.target.value
-    let filterNotes = []
+//   handleNotesFilter = (e) => {
+//     let allNotes = this.state.notes
+//     let searchNotes = e.target.value
+//     let filterNotes = []
+//     allNotes.filter(note => note.title.toLowerCase().includes(searchNotes.toLowerCase()) ? filterNotes.push(note) : null)
+//     this.setState({
+//         filterNotes: filterNotes
+//     });
+// }
+
+handleNotesFilter = (e) => {
+  let allNotes = this.state.notes
+  let searchNotes = e.target.value
+  let filterNotes = []
+  if (this.state.selectedButton === 'title') {
     allNotes.filter(note => note.title.toLowerCase().includes(searchNotes.toLowerCase()) ? filterNotes.push(note) : null)
-    this.setState({
-        filterNotes: filterNotes
-    });
+  }
+  else if(this.state.selectedButton === 'content') {
+    allNotes.filter(note => note.body.toLowerCase().includes(searchNotes.toLowerCase()) ? filterNotes.push(note) : null)
+  }
+  this.setState({
+      filterNotes: filterNotes
+  });
 }
+
+handleOptionChange = (e) => {
+  this.setState({
+    selectedButton: e.target.value
+  })
+}
+
+//if 'title' radio button === true ? notesByTitle : null
+//if 'content' radio button === true ? notesByContent : null
+///if 'date' radio button === true ? notesbyDate : null
 
   render() {
     return (
@@ -114,6 +141,8 @@ class NoteContainer extends Component {
           search={this.state.search}
           notes={this.state.notes}
           handleFilter={this.handleNotesFilter}
+          selectedButton={this.state.selectedButton}
+          handleOptionChange={this.handleOptionChange}
         />
 
         <div className='container'>
@@ -121,7 +150,7 @@ class NoteContainer extends Component {
           filterNotes={this.state.filterNotes}
           handleNew={this.handleNew} 
           handleCancel={this.handleCancel} 
-          notes={this.state.filterNotes} 
+          notes={this.state.filterNotes}
           handleClick={this.handleClick}
           />
 

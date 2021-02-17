@@ -99,7 +99,7 @@ Look at the gif below to see how the app should look and behave. These are the b
 
 **Filtering Notes**
 
-- [ ] Implement the filter to search through your notes list by title.
+- [X] Implement the filter to search through your notes list by title.
 
 ![result](react-evernote-filter.gif)
 
@@ -117,5 +117,3 @@ Some suggestions:
 - Rich text formatting
 - Tagging
 - Emailing notes
-
-this is going to be fun

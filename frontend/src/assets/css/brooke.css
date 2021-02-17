@@ -69,9 +69,14 @@ p.instructions {
 .filter {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   border: 2px dashed grey;
+}
+
+.search-bar {
+  width: 80%;
+  justify-content: right;
 }
 
 input {
@@ -165,6 +170,10 @@ div.sidebar ul li:hover {
 
 /* Button Style */
 input[type="submit"] {
+  height: auto;
+  width: auto;
+}
+input[type="radio"] {
   height: auto;
   width: auto;
 }
