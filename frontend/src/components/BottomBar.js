@@ -1,28 +1,29 @@
 import React, { Component } from 'react';
 import NoteList from './NoteList';
-import Instructions from './Instructions';
 
-class Sidebar extends Component {
+class BottomBar extends Component {
   render() {
     return (
-      <div className='master-detail-element sidebar'>
-        <Instructions />
+      <div className='bottom-div'>
+        <div>
         <select className="drop-down" onChange={this.props.handleSort}>
           <option value="default">Sort Notes</option>
           <option value="A-Z">A-Z</option>
           <option value="Z-A">Z-A</option>
         </select>
-        <button onClick={(e)=> this.props.handleNew(e)}>New Note</button>
+        </div>
+        <div className='bottombar'>
         <NoteList 
         handleDelete={this.props.handleDelete} 
         notes={this.props.notes} 
-        // filterNotes={this.props.filterNotes} 
         selectedNote={this.props.selectedNote} 
         handleClick={this.props.handleClick} 
-        handleCancel={this.props.handleCancel}/>
+        handleCancel={this.props.handleCancel}
+        filterNotes={this.props.filterNotes}/>
+        </div>
       </div>
     );
   }
 }
 
-export default Sidebar;
+export default BottomBar;

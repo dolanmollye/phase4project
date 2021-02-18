@@ -98,6 +98,16 @@ div.sidebar button {
   float: right;
 }
 
+div.bottom-div select {
+width: 20%;
+ margin: 10px 5px 5px 0px;
+ border-radius:15px;
+ border: 1px solid black;
+ background-color: rgb(13, 77, 58);
+ color: white;
+ padding: 5px 10px;
+}
+
 div.sidebar select {
  width: 20%;
  margin: 0px 10px 10px 0px;
@@ -117,7 +127,24 @@ div.sidebar ul {
   width: 100%;
 }
 
+div.bottombar ul {
+  width: 100%;
+  margin: 0 0 20px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+}
+
 div.sidebar ul li {
+  list-style: none;
+  padding: 0 5px;
+  background-color: white;
+  margin: 3px;
+  border-radius:15px;
+  border: 2px solid black;
+}
+
+div.bottombar ul li {
   list-style: none;
   padding: 0 5px;
   background-color: white;
@@ -131,7 +158,22 @@ div.sidebar ul li:first-child {
   margin: 3px;
 }
 
+div.bottombar ul li:first-child {
+  background-color: white;
+  margin: 3px;
+  display: inline-block;
+  text-align: left;
+  padding: 14px;
+  text-decoration: none;
+}
+
 div.sidebar ul li:hover {
+  /* background-color: yellow; */
+  background-image: linear-gradient(#E6E6E6, #F7F7F7);
+  background-repeat: no-repeat;
+}
+
+div.bottombar ul li:hover {
   /* background-color: yellow; */
   background-image: linear-gradient(#E6E6E6, #F7F7F7);
   background-repeat: no-repeat;
@@ -148,7 +190,7 @@ div.sidebar ul li:hover {
 
 .container {
   flex: 1;
-  width: 100%;
+  width: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -163,16 +205,20 @@ div.sidebar ul li:hover {
 
 .sidebar {
   width: 100%;
-  height: 75vh;
   border-radius:15px;
 }
 
-.detail {
+.bottombar {
   width: 100%;
-  margin-left: 5%;
-  margin-right: 5%;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.detail {
+  width: 90%;
+  height: 100;
+  margin: auto;
   border-radius:15px;
-  background-color: white;
 }
 
 .view-div {
@@ -184,6 +230,7 @@ div.sidebar ul li:hover {
   background-color: white;
   border-radius: 15px;
   border: 2px solid rgb(17, 105, 79);
+  overflow-wrap: break-word;
 }
 
 .note-editor {

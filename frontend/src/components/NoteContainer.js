@@ -10,18 +10,17 @@ class NoteContainer extends Component {
 
   state = {
     notes: [],
-    filterNotes: [],
     selectedNote: {},
     editNotes: false,
     selectedButton: 'title',
+    filter: ""
   }
 
   componentDidMount() {
     fetch('http://localhost:3000/api/v1/notes')
     .then(res => res.json())
     .then(note => this.setState({
-      notes: note,
-      filterNotes: note
+      notes: note
     }))
   }
   
@@ -62,7 +61,7 @@ class NoteContainer extends Component {
     .then(note => {
      this.setState(prevState => {
        return {
-         filterNotes: prevState.filterNotes.map(n => n.id === note.id ? note : n),
+         notes: prevState.notes.map(n => n.id === note.id ? note : n),
          editNotes: false
        }
      })
@@ -84,7 +83,7 @@ class NoteContainer extends Component {
     .then(note => {
       this.setState(prevState => {
         return{
-          filterNotes: [...prevState.filterNotes, note]
+          notes: [...prevState.notes, note]
         }
       })
     })
@@ -97,24 +96,55 @@ class NoteContainer extends Component {
     })
     .then(res => res.json())
     .then(this.setState({
-      filterNotes: newArr,
+      notes: newArr,
       selectedNote: {}
     }))
   }
 
 handleNotesFilter = (e) => {
-  let allNotes = this.state.notes
-  let searchNotes = e.target.value
-  let filterNotes = []
-  if (this.state.selectedButton === 'title') {
-    allNotes.filter(note => note.title.toLowerCase().includes(searchNotes.toLowerCase()) ? filterNotes.push(note) : null)
-  }
-  else if(this.state.selectedButton === 'content') {
-    allNotes.filter(note => note.body.toLowerCase().includes(searchNotes.toLowerCase()) ? filterNotes.push(note) : null)
-  }
+  // let allNotes = this.state.notes
+  // let searchNotes = e.target.value
+  // let filterNotes = []
+  // if (this.state.selectedButton === 'title') {
+  //   allNotes.filter(note => note.title.toLowerCase().includes(searchNotes.toLowerCase()) ? filterNotes.push(note) : null)
+  // }
+  // else if(this.state.selectedButton === 'content') {
+  //   allNotes.filter(note => note.body.toLowerCase().includes(searchNotes.toLowerCase()) ? filterNotes.push(note) : null)
+  // }
+  // this.setState({
+  //     notes: filterNotes
+  // })
   this.setState({
-      filterNotes: filterNotes
-  });
+    filter: e.target.value
+  })
+}
+
+filterTitle = () => {
+  let allNotes = [...this.state.notes]
+
+  if (this.state.filter.length > 0) {
+    return allNotes.filter(note => note.title.toLowerCase().includes(this.state.filter.toLowerCase()))
+  }
+  return (this.state.notes)
+}
+
+filterContent = () => {
+  let allNotes = [...this.state.notes]
+  if (this.state.filter.length > 0) {
+    return allNotes.filter(note => note.body.toLowerCase().includes(this.state.filter.toLowerCase()))
+  }
+  return (this.state.notes)
+}
+
+buttonFun = () => {
+  switch(this.state.selectedButton) {
+    case "title": 
+      return this.filterTitle()
+    case "content":
+      return this.filterContent()
+    default:
+      return this.state.notes
+  }
 }
 
 handleOptionChange = (e) => {
@@ -126,12 +156,12 @@ handleOptionChange = (e) => {
 handleSort = (e) => {
   switch(e.target.value){
     case 'A-Z':
-      let sortedNotes = this.state.filterNotes.sort((a,b) => (a.title > b.title) ? 1 : -1)
-      this.setState({filterNotes: sortedNotes})
+      let sortedNotes = this.state.notes.sort((a,b) => (a.title > b.title) ? 1 : -1)
+      this.setState({notes: sortedNotes})
       break
     case 'Z-A':
-      let reverseSort = this.state.filterNotes.sort((a,b) => (a.title > b.title) ? -1 : 1)
-      this.setState({filterNotes: reverseSort})
+      let reverseSort = this.state.notes.sort((a,b) => (a.title > b.title) ? -1 : 1)
+      this.setState({notes: reverseSort})
       break
     default:
   }
@@ -143,8 +173,6 @@ handleSort = (e) => {
         <Header />
         <Route exact path='/notes' render={() => {
         return <Search 
-          search={this.state.search}
-          notes={this.state.notes}
           handleFilter={this.handleNotesFilter}
           selectedButton={this.state.selectedButton}
           handleOptionChange={this.handleOptionChange}
@@ -155,9 +183,8 @@ handleSort = (e) => {
 
         <Route exact path="/notes" render={() => {
           return  <Sidebar
-          notes={this.state.filterNotes}
+          notes={this.buttonFun()}
           handleSort={this.handleSort}
-          filterNotes={this.state.filterNotes}
           handleNew={this.handleNew} 
           handleCancel={this.handleCancel}
           handleClick={this.handleClick}
@@ -173,6 +200,9 @@ handleSort = (e) => {
           editNotes={this.state.editNotes} 
           handleChange={this.makeEdits} 
           handleSubmit={this.handleSubmit}
+          notes={this.state.notes}
+          handleSort={this.handleSort}
+          handleClick={this.handleClick}
           />
         }} />
         </div>

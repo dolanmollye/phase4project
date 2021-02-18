@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NoteEditor from './NoteEditor';
 import NoteViewer from './NoteViewer';
+import BottomBar from './BottomBar';
 
 class Content extends Component {
 
@@ -22,7 +23,18 @@ class Content extends Component {
     return (
       <div className='master-detail-element detail'>
         {this.renderContent()}
+        <br></br>
+        <BottomBar 
+          handleSort={this.props.handleSort}
+          notes={this.props.notes}
+          handleNew={this.props.handleNew} 
+          handleCancel={this.props.handleCancel}
+          handleClick={this.props.handleClick}
+          filterNotes={this.props.filterNotes}
+        />
       </div>
+      
+      
     );
   }
 }
