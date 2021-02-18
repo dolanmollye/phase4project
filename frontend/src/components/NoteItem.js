@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom'
 
 const truncate = (str) => {
-  return str.length > 10 ? str.substring(0,15) + "..." : str
+  return str.length > 10 ? str.substring(0, 35) + "..." : str
 }
 
 const NoteItem = (props) => (

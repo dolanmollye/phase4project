@@ -124,7 +124,6 @@ handleOptionChange = (e) => {
 }
 
 handleSort = (e) => {
-  console.log(this.state.notes)
   switch(e.target.value){
     case 'A-Z':
       let sortedNotes = this.state.filterNotes.sort((a,b) => (a.title > b.title) ? 1 : -1)
