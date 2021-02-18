@@ -1,7 +1,10 @@
 import React, { Component, Fragment } from 'react';
+import {Route} from 'react-router-dom'
 import Search from './Search';
 import Sidebar from './Sidebar';
 import Content from './Content';
+import Header from './Header';
+
 
 class NoteContainer extends Component {
 
@@ -72,8 +75,8 @@ class NoteContainer extends Component {
       method: 'POST',
       headers: {'Content-Type' : 'application/json'},
       body: JSON.stringify({ 
-        title: "Title",
-        body: "Body",
+        title: "New Note",
+        body: "Click to Edit",
         user_id: 1
       })
     })
@@ -81,7 +84,7 @@ class NoteContainer extends Component {
     .then(note => {
       this.setState(prevState => {
         return{
-          notes: [...prevState.notes, note]
+          filterNotes: [...prevState.filterNotes, note]
         }
       })
     })
@@ -94,20 +97,10 @@ class NoteContainer extends Component {
     })
     .then(res => res.json())
     .then(this.setState({
-      notes: newArr,
+      filterNotes: newArr,
       selectedNote: {}
     }))
   }
-
-//   handleNotesFilter = (e) => {
-//     let allNotes = this.state.notes
-//     let searchNotes = e.target.value
-//     let filterNotes = []
-//     allNotes.filter(note => note.title.toLowerCase().includes(searchNotes.toLowerCase()) ? filterNotes.push(note) : null)
-//     this.setState({
-//         filterNotes: filterNotes
-//     });
-// }
 
 handleNotesFilter = (e) => {
   let allNotes = this.state.notes
@@ -130,31 +123,50 @@ handleOptionChange = (e) => {
   })
 }
 
-//if 'title' radio button === true ? notesByTitle : null
-//if 'content' radio button === true ? notesByContent : null
-///if 'date' radio button === true ? notesbyDate : null
+handleSort = (e) => {
+  console.log(this.state.notes)
+  switch(e.target.value){
+    case 'A-Z':
+      let sortedNotes = this.state.filterNotes.sort((a,b) => (a.title > b.title) ? 1 : -1)
+      this.setState({filterNotes: sortedNotes})
+      break
+    case 'Z-A':
+      let reverseSort = this.state.filterNotes.sort((a,b) => (a.title > b.title) ? -1 : 1)
+      this.setState({filterNotes: reverseSort})
+      break
+    default:
+  }
+}
 
   render() {
     return (
       <Fragment>
-        <Search 
+        <Header />
+        <Route exact path='/notes' render={() => {
+        return <Search 
           search={this.state.search}
           notes={this.state.notes}
           handleFilter={this.handleNotesFilter}
           selectedButton={this.state.selectedButton}
           handleOptionChange={this.handleOptionChange}
+        />}}
         />
 
         <div className='container'>
-          <Sidebar
+
+        <Route exact path="/notes" render={() => {
+          return  <Sidebar
+          notes={this.state.filterNotes}
+          handleSort={this.handleSort}
           filterNotes={this.state.filterNotes}
           handleNew={this.handleNew} 
-          handleCancel={this.handleCancel} 
-          notes={this.state.filterNotes}
+          handleCancel={this.handleCancel}
           handleClick={this.handleClick}
           />
+        }} />
 
-          <Content 
+        <Route path='/note-content' render={() => {
+          return <Content 
           handleDelete={this.handleDelete}
           handleCancel={this.handleCancel} 
           handleEdit={this.handleEdit} 
@@ -163,6 +175,7 @@ handleOptionChange = (e) => {
           handleChange={this.makeEdits} 
           handleSubmit={this.handleSubmit}
           />
+        }} />
         </div>
       </Fragment>
     );

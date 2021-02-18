@@ -6,10 +6,14 @@ const Search = (props) => {
 
       <div className="button-div">
         Filter By: 
+        <label>
         <input type="radio" id="title" value="title" checked={props.selectedButton === "title"} onChange={props.handleOptionChange}/>
-        <label for="title">Title</label>
+        <span>Title</span>
+        </label>
+        <label>
         <input type="radio" id="content" value="content" checked={props.selectedButton === "content"} onChange={props.handleOptionChange}/>
-        <label for="title">Content</label>
+        <span>Content</span>
+        </label>
       </div> 
 
       <br></br>

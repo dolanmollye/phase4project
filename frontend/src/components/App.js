@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Header from './Header';
 import NoteContainer from './NoteContainer';
+import Login from './Login'
+import {Route} from 'react-router-dom'
 
 class App extends Component {
 
@@ -8,7 +9,7 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <Header />
+        <Route exact path='/' component={Login}/>
         <NoteContainer />
       </div>
     );
