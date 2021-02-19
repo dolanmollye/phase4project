@@ -9,8 +9,8 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <Route exact path='/' component={Login}/>
         <NoteContainer />
+        <Route exact path='/' component={Login}/>
       </div>
     );
   }
