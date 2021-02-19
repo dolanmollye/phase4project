@@ -7,15 +7,22 @@ class Content extends Component {
 
   renderContent = () => {
     if (this.props.editNotes) {
-      return <NoteEditor handleCancel={this.props.handleCancel} note={this.props.selectedNote} handleChange={this.props.handleChange} handleSubmit={this.props.handleSubmit}/>;
+      return <NoteEditor 
+                handleCancel={this.props.handleCancel} 
+                note={this.props.selectedNote} 
+                handleChange={this.props.handleChange} 
+                notes={this.props.notes} 
+                handleSubmit={this.props.handleSubmit} 
+                handleNote={this.props.handleNote}
+                />;
     } else if (this.props.selectedNote.body) {
       return <div className="view-div">
-        <NoteViewer 
-        key={this.props.selectedNote} 
-        note={this.props.selectedNote} 
-        handleDelete={this.props.handleDelete} 
-        handleEdit={this.props.handleEdit}/>
-        </div>
+                <NoteViewer 
+                key={this.props.selectedNote} 
+                note={this.props.selectedNote} 
+                handleDelete={this.props.handleDelete} 
+                handleEdit={this.props.handleEdit}/>
+              </div>
     }
   }
 
@@ -30,7 +37,6 @@ class Content extends Component {
           handleNew={this.props.handleNew} 
           handleCancel={this.props.handleCancel}
           handleClick={this.props.handleClick}
-          filterNotes={this.props.filterNotes}
         />
       </div>
       

@@ -24,6 +24,12 @@ class NoteContainer extends Component {
     }))
   }
   
+  handleNote = (note) => this.setState(prevState => {
+    const newNotes = [...prevState.notes].map(n => n.id === note.id ? note : n)
+    return {notes: newNotes, selectedNote: note}
+  })
+
+
   handleClick =(note) => this.setState({
     selectedNote: note
   })
@@ -48,24 +54,6 @@ class NoteContainer extends Component {
           [e.target.name] : e.target.value
         }
       }))
-  }
-
-  handleSubmit = (note, e) => {
-    e.preventDefault()
-    fetch(`http://localhost:3000/api/v1/notes/${note.note.id}`, {
-      method: 'PATCH',
-      headers: {'Content-Type' : 'application/json'},
-      body: JSON.stringify(note.note)
-    })
-    .then(res => res.json())
-    .then(note => {
-     this.setState(prevState => {
-       return {
-         notes: prevState.notes.map(n => n.id === note.id ? note : n),
-         editNotes: false
-       }
-     })
-    })
   }
 
   handleNew = (e) => {
@@ -102,18 +90,6 @@ class NoteContainer extends Component {
   }
 
 handleNotesFilter = (e) => {
-  // let allNotes = this.state.notes
-  // let searchNotes = e.target.value
-  // let filterNotes = []
-  // if (this.state.selectedButton === 'title') {
-  //   allNotes.filter(note => note.title.toLowerCase().includes(searchNotes.toLowerCase()) ? filterNotes.push(note) : null)
-  // }
-  // else if(this.state.selectedButton === 'content') {
-  //   allNotes.filter(note => note.body.toLowerCase().includes(searchNotes.toLowerCase()) ? filterNotes.push(note) : null)
-  // }
-  // this.setState({
-  //     notes: filterNotes
-  // })
   this.setState({
     filter: e.target.value
   })
@@ -196,13 +172,14 @@ handleSort = (e) => {
           handleDelete={this.handleDelete}
           handleCancel={this.handleCancel} 
           handleEdit={this.handleEdit} 
-          selectedNote={this.state.selectedNote}
-          editNotes={this.state.editNotes} 
           handleChange={this.makeEdits} 
-          handleSubmit={this.handleSubmit}
-          notes={this.state.notes}
+          handleNote={this.handleNote}
           handleSort={this.handleSort}
           handleClick={this.handleClick}
+          selectedNote={this.state.selectedNote}
+          editNotes={this.state.editNotes} 
+          notes={this.state.notes}
+          
           />
         }} />
         </div>

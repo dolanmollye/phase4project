@@ -16,7 +16,6 @@ class Sidebar extends Component {
         <NoteList 
         handleDelete={this.props.handleDelete} 
         notes={this.props.notes} 
-        // filterNotes={this.props.filterNotes} 
         selectedNote={this.props.selectedNote} 
         handleClick={this.props.handleClick} 
         handleCancel={this.props.handleCancel}/>

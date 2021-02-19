@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import {Link} from 'react-router-dom'
 const NoteViewer = (props) => {
+  
   return (
     <Fragment>
       <h2>{props.note.title}</h2>
@@ -13,6 +14,7 @@ const NoteViewer = (props) => {
       </Link>
     </Fragment>
   )
+
 }
 
 export default NoteViewer;
