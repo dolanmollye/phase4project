@@ -109,9 +109,9 @@ When you are finished with the *Delieverables*, you can build out any new featur
 
 Some suggestions:
 
-- Add the ability to filter by body, date created, date edited, etc.
-- Sorting by date created, date edited, alphabetical, etc.
-- Use `react-router` to create a multi-page app
+- [x]Add the ability to filter by body, date created, date edited, etc.
+- [x]Sorting by date created, date edited, alphabetical, etc.
+- [x]Use `react-router` to create a multi-page app
 - User signup & login
 - Sharing notes with other users
 - Rich text formatting
